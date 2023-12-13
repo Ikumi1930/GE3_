@@ -7,15 +7,14 @@
 #include <DirectXMath.h>
 #include <DirectXTex.h>
 #include <d3dcompiler.h>
-#define DIRECTINPUT_VERSION     0x0800   // DirectInputのバージョン指定
-#include <dinput.h>
 #include <wrl.h>
+
+#include "Input.h"
+
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "d3dcompiler.lib")
-#pragma comment(lib, "dinput8.lib")
-#pragma comment(lib, "dxguid.lib")
 
 using namespace DirectX;
 using namespace Microsoft::WRL;
@@ -214,6 +213,9 @@ LRESULT WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) {
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
+
+    //ポインタ置き場
+    Input* input_ = nullptr;
 
 #pragma region WindowsAPI初期化処理
     // ウィンドウサイズ
@@ -468,22 +470,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     // DirectX初期化処理　ここまで
 #pragma endregion
 
-    // DirectInputの初期化
-    ComPtr<IDirectInput8> directInput;
-    result = DirectInput8Create(
-        w.hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
-    assert(SUCCEEDED(result));
-
-    // キーボードデバイスの生成
-    ComPtr<IDirectInputDevice8> keyboard;
-    result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
-    // 入力データ形式のセット
-    result = keyboard->SetDataFormat(&c_dfDIKeyboard); // 標準形式
-    assert(SUCCEEDED(result));
-    // 排他制御レベルのセット
-    result = keyboard->SetCooperativeLevel(
-        hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
-    assert(SUCCEEDED(result));
+    //Input生成、初期化
+	input_ = new Input();
+	input_->Initialize(w.hInstance, hwnd);
 
 #pragma region 描画初期化処理
 
@@ -954,7 +943,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     device->CreateShaderResourceView(texBuff2.Get(), &srvDesc, srvHandle);
 
     size_t textureIndex = 0;
-    BYTE key[256] = {};
+   
 
     // ゲームループ
     while (true) {
@@ -968,26 +957,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         if (msg.message == WM_QUIT) {
             break;
         }
+		input_->Update();
+       
+        // 数字の0キーが押されていたら
+        if (key[DIK_0]) 
+        {
+            OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
+        }
 
-        // キーボード情報の取得開始
-        keyboard->Acquire();
-        // 全キーの入力状態を取得する
-        keyboard->GetDeviceState(sizeof(key), key);
+         //DirectX毎フレーム処理　ここから
+        static float red = 1.0f;
 
-        //// 数字の0キーが押されていたら
-        //if (key[DIK_0]) 
-        //{
-        //    OutputDebugStringA("Hit 0\n");  // 出力ウィンドウに「Hit 0」と表示
-        //}
-
-        // DirectX毎フレーム処理　ここから
-        //static float red = 1.0f;
-
-        //if (key[DIK_SPACE]) {
-        //    red -= 0.01f;
-        //    red = max(0, red);
-        //    constMapMaterial->color = XMFLOAT4(red, 1.0f - red, 0, 0.5f);              // RGBAで半透明の赤
-        //}
+        if (key[DIK_SPACE]) {
+            red -= 0.01f;
+            red = max(0, red);
+            constMapMaterial->color = XMFLOAT4(red, 1.0f - red, 0, 0.5f);              // RGBAで半透明の赤
+        }
 
         if (key[DIK_D] || key[DIK_A])
         {
@@ -1123,6 +1108,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
         // DirectX毎フレーム処理　ここまで
 
     }
+    
+    delete input_;
 
     // ウィンドウクラスを登録解除
     UnregisterClass(w.lpszClassName, w.hInstance);
