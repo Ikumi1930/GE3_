@@ -9,16 +9,24 @@
 
 #include <wrl.h>
 
-
-class Input
-{
+class Input {
 public:
-	//初期化
+	// 初期化
 	void Initialize(HINSTANCE hInstance, HWND hwnd);
-	//更新
+	// 更新
 	void Update();
 
+	//任意ボタンを押されている
+	bool PushKey(BYTE keyNumber);
+	//任意のボタンが押された瞬間
+	bool TriggerKey(BYTE keyNumber);
+	//任意ボタンが離された瞬間
+
 private:
+	Microsoft::WRL::ComPtr<IDirectInput8> directInput;
 	Microsoft::WRL::ComPtr<IDirectInputDevice8> keyboard;
 
+	// 全キーの状態
+	BYTE key[256] = {};
+	BYTE keyPre[256] = {};
 };
