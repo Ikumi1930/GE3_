@@ -4,53 +4,52 @@
 
 using namespace Microsoft::WRL;
 
-void Input::Initialize(HINSTANCE hInstance, HWND hwnd) {
+void Input::Initialize(WinApp* winApp)
+	{
+	winApp_ = winApp;
+
 	HRESULT result;
 
-	// DirectInput‚Ì‰Šú‰»
+	// DirectInputã®åˆæœŸåŒ–
 	result = DirectInput8Create(
-	    hInstance, DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput, nullptr);
+	    winApp_->GetHInstance(), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&directInput,
+	    nullptr);
 	assert(SUCCEEDED(result));
 
-	// ƒL[ƒ{[ƒhƒfƒoƒCƒX‚Ì¶¬
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ãƒ‡ãƒã‚¤ã‚¹ã®ç”Ÿæˆ
 	result = directInput->CreateDevice(GUID_SysKeyboard, &keyboard, NULL);
-	// “ü—Íƒf[ƒ^Œ`®‚ÌƒZƒbƒg
-	result = keyboard->SetDataFormat(&c_dfDIKeyboard); // •W€Œ`®
+	// å…¥åŠ›ãƒ‡ãƒ¼ã‚¿å½¢å¼ã®ã‚»ãƒƒãƒˆ
+	result = keyboard->SetDataFormat(&c_dfDIKeyboard); // æ¨™æº–å½¢å¼
 	assert(SUCCEEDED(result));
-	// ”r‘¼§ŒäƒŒƒxƒ‹‚ÌƒZƒbƒg
-	result =
-	    keyboard->SetCooperativeLevel(hwnd, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
+	// æ’ä»–åˆ¶å¾¡ãƒ¬ãƒ™ãƒ«ã®ã‚»ãƒƒãƒˆ
+	result = keyboard->SetCooperativeLevel(
+	    winApp_->GetHwnd(), DISCL_FOREGROUND | DISCL_NONEXCLUSIVE | DISCL_NOWINKEY);
 	assert(SUCCEEDED(result));
 }
 
-void Input::Update()
-{
-	//keyPre‚Ì’†‚Ékey‚Ìî•ñ‚ğƒRƒs[‚·‚é
+void Input::Update() {
+	// keyPreã®ä¸­ã«keyã®æƒ…å ±ã‚’ã‚³ãƒ”ãƒ¼ã™ã‚‹
 	memcpy(keyPre, key, sizeof(key));
 
-	// ƒL[ƒ{[ƒhî•ñ‚Ìæ“¾ŠJn
+	// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰æƒ…å ±ã®å–å¾—é–‹å§‹
 	keyboard->Acquire();
-	// ‘SƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚é
+	// å…¨ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹
 	keyboard->GetDeviceState(sizeof(key), key);
 }
 
-bool Input::PushKey(BYTE keyNumber)
-{
-	//”CˆÓƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚Ä‚¢‚é‚©
+bool Input::PushKey(BYTE keyNumber) {
+	// ä»»æ„ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã¦ã„ã‚‹ã‹
 	if (key[keyNumber]) {
 		return true;
 	}
-	//‚»‚¤‚Å‚È‚¯‚ê‚Îfalse‚ğ•Ô‚·
+	// ãã†ã§ãªã‘ã‚Œã°falseã‚’è¿”ã™
 	return false;
-
 }
 
-bool Input::TriggerKey(BYTE keyNumber)
-{
+bool Input::TriggerKey(BYTE keyNumber) {
 	if (!keyPre[keyNumber] && key[keyNumber]) {
 		return true;
 	}
 
-
-	return false; 
+	return false;
 }
