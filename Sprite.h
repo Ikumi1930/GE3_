@@ -1,2 +1,7 @@
 #pragma once
-class Sprite {};
+class Sprite {
+public:
+	//‰Šú‰»
+	void Initialize();
+
+};
