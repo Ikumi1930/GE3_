@@ -3,7 +3,8 @@
 
 #pragma comment(lib, "dxcompiler.lib")
 
-void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
+void SpriteCommon::Initialize(DirectXCommon* dxCommon)
+{
 	HRESULT result{};
 	
 	dxCommon_ = dxCommon;
@@ -25,8 +26,8 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon) {
 	descriptorRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//シリアライズとしてバイナリにする
-	ComPtr<ID3D10Blob> signatureBlob;
-	ComPtr<ID3D10Blob> errorBlob;
+	ID3DBlob* signatureBlob = nullptr;
+	ID3DBlob* errorBlob =  nullptr;
 	result = D3D12SerializeRootSignature(&descriptorRootSignature, D3D_ROOT_SIGNATURE_VERSION_1, &signatureBlob, &errorBlob);
 	if (FAILED(result)) {
 		assert(false);
