@@ -46,6 +46,8 @@
     <FxCompile Include="Resources\shaders\BasicVS.hlsl">
       <Filter>リソース ファイル</Filter>
     </FxCompile>
+    <FxCompile Include="Resources\shaders\SpriteVS.hlsl" />
+    <FxCompile Include="Resources\shaders\SpritePS.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Input.h">
