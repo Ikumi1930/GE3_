@@ -17,6 +17,7 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 	result = DxcCreateInstance(CLSID_DxcCompiler, IID_PPV_ARGS(&dxcCompiler));
 	assert(SUCCEEDED(result));
 
+
 	ComPtr<IDxcIncludeHandler> includeHandler;
 	result = dxcUils->CreateDefaultIncludeHandler(&includeHandler);
 	assert(SUCCEEDED(result));
