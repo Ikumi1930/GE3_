@@ -20,7 +20,7 @@ void Sprite::Initialize(DirectXCommon* dxCommon, SpriteCommon* common) {
 	vertexResourceDesc.SampleDesc.Count = 1;
 	vertexResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
-	ComPtr<ID3D12Resource> vertexResource;
+	//ComPtr<ID3D12Resource> vertexResource;
 	HRESULT result = dxCommon_->GetDevice()->CreateCommittedResource(&uploadHeapProperties,D3D12_HEAP_FLAG_NONE,&vertexResourceDesc,D3D12_RESOURCE_STATE_GENERIC_READ,nullptr,IID_PPV_ARGS(&vertexResource));
 	assert(SUCCEEDED(result));
 

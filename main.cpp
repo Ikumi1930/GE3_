@@ -11,7 +11,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	Input* input_ = nullptr;
 	WinApp* winApp_ = nullptr;
 	DirectXCommon* dxCommon_ = nullptr;
-	SpriteCommon* spriteCommon = nullptr;
+	//SpriteCommon* spriteCommon = nullptr;
 
 	// WindowsAPI初期化処理
 	winApp_ = new WinApp();
@@ -29,7 +29,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	SpriteCommon* common = new SpriteCommon;
 	common->Initialize(dxCommon_);
 	Sprite* sp = new Sprite();
-	sp->Initialize(dxCommon_, spriteCommon);
+	sp->Initialize(dxCommon_, common);
 
 	// ゲームループ
 	while (true) {

@@ -23,7 +23,7 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 	assert(SUCCEEDED(result));
 
 	//RootSignature作成
-	D3D12_ROOT_SIGNATURE_DESC descriptorRootSignature;
+	D3D12_ROOT_SIGNATURE_DESC descriptorRootSignature{};
 	descriptorRootSignature.Flags = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 
 	//シリアライズとしてバイナリにする
@@ -66,7 +66,7 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 	    includeHandler.Get());
 
 	ComPtr<IDxcBlob> pixelShaderBlob = CompileShader(
-	    L"Resources/shaders/SpritePS.hlsl", L"vs_6_0", dxcUils.Get(), dxcCompiler.Get(),
+	    L"Resources/shaders/SpritePS.hlsl", L"ps_6_0", dxcUils.Get(), dxcCompiler.Get(),
 	    includeHandler.Get());
 
 	//PipelibeState
@@ -79,7 +79,7 @@ void SpriteCommon::Initialize(DirectXCommon* dxCommon)
 	graphicsPipelineStateDesc.RasterizerState = rasterizerDesc;
 
 	graphicsPipelineStateDesc.NumRenderTargets = 1;
-	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_B8G8R8A8_UNORM_SRGB;
+	graphicsPipelineStateDesc.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 
 	graphicsPipelineStateDesc.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 
