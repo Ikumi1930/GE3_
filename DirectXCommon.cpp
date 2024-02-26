@@ -51,6 +51,10 @@ void DirectXCommon::RreDraw()
 	commandList->ClearRenderTargetView(rtvHandle, clearColor, 0, nullptr);
 	commandList->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, 0, 0, nullptr);
 
+	//描画用のDescriptorHeapの設定
+	ID3D12DescriptorHeap* descriptorHeaps[] = {srvDescriptorHeap.Get()};
+	commandList->SetDescriptorHeaps(1, descriptorHeaps);
+
 	// ４．描画コマンドここから
 	// ビューポート設定コマンド
 	D3D12_VIEWPORT viewport{};

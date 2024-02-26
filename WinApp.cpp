@@ -1,6 +1,7 @@
 #include "WinApp.h"
 
 #include "External/imgui/imgui.h"
+
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 #pragma comment(lib, "winmm.lib")
@@ -23,9 +24,6 @@ LRESULT WinApp::WindowProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	// 標準のメッセージ処理を行う
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
-
-
-
 
 void WinApp::Initialize() 
 {

@@ -31,7 +31,7 @@ public:
 	D3D12_RENDER_TARGET_VIEW_DESC GetRtvDesc() { return rtvDesc; }
 
 	//SRVディスクリプタヒープ
-	ComPtr<ID3D12DescriptorHeap> GetsrvDescriptorHeap() { return srvDescriptorHeap.Get(); }
+	ID3D12DescriptorHeap* GetSrvDescriptorHeap() { return srvDescriptorHeap.Get(); }
 
 private:
 	// デバイス
