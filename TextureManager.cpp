@@ -87,9 +87,11 @@ void TextureManager::LoadTexture(const std::wstring& filePath)
 
 uint32_t TextureManager::GetTextureIndexFilePath(const std::wstring& filePath) { 
 	
-	auto it = std::find_if(textureDatas.begin(), textureDatas.end(), [&](TextureData& textureData) {
-		return textureData.filePath == filePath;
-	});
+	auto it = std::find_if(
+		textureDatas.begin(),
+		textureDatas.end(),
+		[&](TextureData& textureData) {return textureData.filePath == filePath;}
+	);
 
 	if (it != textureDatas.end()) {
 		uint32_t textureIndex = static_cast<uint32_t>(std::distance(textureDatas.begin(), it));

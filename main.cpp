@@ -41,12 +41,14 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	//テクスチャマネージャー
 	TextureManager::GetInstance()->Initialize(dxCommon_);
 	TextureManager::GetInstance()->LoadTexture(L"Resources/mario.jpg");
+	TextureManager::GetInstance()->LoadTexture(L"Resources/reimu.png");
 
 	//画像
 	std::vector<Sprite*> sp;
 	for (int i = 0; i < 5; i++) {
 		Sprite* temp = new Sprite();
-		temp->Initialize(common, L"Resources/mario.jpg");
+		if (i % 2 == 0) temp->Initialize(common, L"Resources/mario.jpg");
+		else if (i % 2 == 1) temp->Initialize(common, L"Resources/reimu.png");
 		temp->SetPosition({(float)i * 120, 0});
 		sp.push_back(temp);
 	}
