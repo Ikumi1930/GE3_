@@ -53,8 +53,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		sp.push_back(temp);
 	}
 
-
-
 	// ゲームループ
 	while (true) {
 		// 更新
