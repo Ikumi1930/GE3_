@@ -7,16 +7,25 @@
 
 #include "DirectXCommon.h"
 
+#include <DirectXTex.h>
+
 class SpriteCommon {
 private:
 	template<class T> using ComPtr = Microsoft::WRL::ComPtr<T>;
 public:
 	//初期化
 	void Initialize(DirectXCommon* dxCommon);
+	void SpritePreDraw();
 
 	//Getter
 	ID3D12RootSignature* GetRootSignature() { return rootsignature.Get(); }
 	ID3D12PipelineState* GetPipelineState() { return pipelineState.Get(); }
+	DirectXCommon* GetDirectXCommon()       { return dxCommon_; }
+
+	//画像読み込み
+	DirectX::ScratchImage LoadTexture(const std::wstring& filePath);
+	//読み込んだ画像をGPU（シェーダーに送る）
+	void UploadTextureData(ID3D12Resource* texture, const DirectX::ScratchImage& mipImage);
 
 private://メンバ関数はここへ
 	IDxcBlob* CompileShader(

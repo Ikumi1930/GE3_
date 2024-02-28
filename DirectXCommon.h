@@ -72,9 +72,6 @@ private:
 	ComPtr<ID3D12DescriptorHeap> rtvHeap;
 	std::vector<ComPtr<ID3D12Resource>> backBuffers;
 
-	// レンダーターゲットビューの設定
-	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
-
 	ComPtr<ID3D12Resource> depthBuff;
 	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	ComPtr<ID3D12DescriptorHeap> dsvHeap;
@@ -83,6 +80,9 @@ private:
 	UINT64 fenceVal = 0;
 
 	D3D12_RESOURCE_BARRIER barrierDesc{};
+
+	// レンダーターゲットビューの設定
+	D3D12_RENDER_TARGET_VIEW_DESC rtvDesc{};
 
 	//ディスクリプタヒープ
 	//RTV
