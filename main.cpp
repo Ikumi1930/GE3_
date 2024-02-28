@@ -47,8 +47,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	std::vector<Sprite*> sp;
 	for (int i = 0; i < 5; i++) {
 		Sprite* temp = new Sprite();
-		if (i % 2 == 0) temp->Initialize(common, L"Resources/mario.jpg");
-		else if (i % 2 == 1) temp->Initialize(common, L"Resources/reimu.png");
+		if (i%2 == 0) temp->Initialize(common, L"Resources/mario.jpg");
+		else if (i%2 == 1) temp->Initialize(common, L"Resources/reimu.png");
 		temp->SetPosition({(float)i * 120, 100});
 		sp.push_back(temp);
 	}

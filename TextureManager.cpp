@@ -67,8 +67,8 @@ void TextureManager::LoadTexture(const std::wstring& filePath)
 	uint32_t srvIndex = static_cast<uint32_t>(textureDatas.size() - 1)+kSRVIndexTop;
 	D3D12_CPU_DESCRIPTOR_HANDLE handleCPU =dxCommon_->GetSrvDescriptorHeap()->GetCPUDescriptorHandleForHeapStart();
 	D3D12_GPU_DESCRIPTOR_HANDLE handleGPU =dxCommon_->GetSrvDescriptorHeap()->GetGPUDescriptorHandleForHeapStart();
-	handleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-	handleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+	handleCPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * srvIndex;
+	handleGPU.ptr += dxCommon_->GetDevice()->GetDescriptorHandleIncrementSize( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV) * srvIndex; 
 
 	data.sevHandleCPU = handleCPU;
 	data.srvHandleGPU = handleGPU;
