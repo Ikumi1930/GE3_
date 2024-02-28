@@ -9,6 +9,8 @@
 
 #include <vector>
 
+#include "TextureManager.h"
+
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
@@ -33,15 +35,19 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	ImGuiManager::Initialize(winApp_->GetHwnd(), dxCommon_);
 
 	//スプライト共通部の初期化
-	SpriteCommon* common = new SpriteCommon;
+	SpriteCommon* common = new SpriteCommon();
 	common->Initialize(dxCommon_);
 
+	//テクスチャマネージャー
+	TextureManager::GetInstance()->Initialize(dxCommon_);
+	TextureManager::GetInstance()->LoadTexture(L"Resources/mario.jpg");
 
+	//画像
 	std::vector<Sprite*> sp;
 	for (int i = 0; i < 5; i++) {
 		Sprite* temp = new Sprite();
-		temp->Initialize(common);
-		temp->SetPosition({(float)i * 1, 0});
+		temp->Initialize(common, L"Resources/mario.jpg");
+		temp->SetPosition({(float)i * 120, 0});
 		sp.push_back(temp);
 	}
 
@@ -103,6 +109,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	for (int i = 0; i < 5; i++) {
 		delete sp[i];
 	}
+	TextureManager::GetInstance()->Finalize();
 	delete common;
 
 	delete imgui;

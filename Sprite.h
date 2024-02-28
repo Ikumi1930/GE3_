@@ -32,7 +32,7 @@ private:
 
 public:
 	//初期化
-	void Initialize(SpriteCommon* common);
+	void Initialize(SpriteCommon* common, std::wstring textureFilePath);
 	void Update();
 	void Draw();
 
@@ -78,9 +78,6 @@ private:
 	ComPtr<ID3D12Resource> wvpResource;
 	DirectX::XMMATRIX* wvpData = nullptr;
 
-	//画像の保存先のアドレス
-	D3D12_GPU_DESCRIPTOR_HANDLE textureSrvHandleGPU;
-
 	//パラメータ
 	DirectX::XMFLOAT4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
 	//UV座標
@@ -94,8 +91,10 @@ private:
     };
 	DirectX::XMFLOAT2 position = {0, 0};
 	float rotation = 0;
-	DirectX::XMFLOAT2 size = {1, 1};
+	DirectX::XMFLOAT2 size = {512,512};
 
+	//画像の保存されている場所
+	uint32_t textureIndex = 0;
 
 	//カメラ
 	Transform cameraTransform = {
