@@ -187,8 +187,8 @@ void Sprite::CreateIndex() {
 	indexData[5] = 2;
 }
 
-void Sprite::CreateMaterial() {
-	materialResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(XMFLOAT4));
+void Sprite::CreateMaterial(){
+	materialResource = CreateBufferResource(dxCommon_->GetDevice(), sizeof(MaterialData));
 
 
 	materialResource->Map(0, nullptr, reinterpret_cast<void**>(&materialData));
